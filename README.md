@@ -17,81 +17,88 @@ STEP 4:Apply the various data visualization tools wherever necessary.
 
 STEP 5:Include Necessary parameters in each functions.
 
-# Coding and Output:
-
+# Coding And Ouput:
 ```
-import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+df=sns.load_dataset("tips")
+df
+```
+![image](https://github.com/user-attachments/assets/f0e1175a-fa49-4203-98ad-70919b1cfb29)
+```
+sns.lineplot(x="total_bill",y="tip",data=df,hue="sex",linestyle='solid',legend="auto")
+```
+![image](https://github.com/user-attachments/assets/478889a9-02cf-4942-acb8-2f46fe9e399c)
+```
+avg_total_bill=df.groupby('day')['total_bill'].mean()
+avg_tip=df.groupby('day')['tip'].mean()
 
-# STEP 2: Read the Data
-def read_data(filename):
-    """Reads data from a CSV and returns a DataFrame."""
-    return pd.read_csv(filename)
+plt.figure(figsize=(8,6))
+p1=plt.bar(avg_total_bill.index, avg_total_bill, label='Total_bill')
+p2=plt.bar(avg_tip.index, avg_tip, bottom=avg_total_bill ,label='Tip')
 
-# STEP 3 & 4: Visualization Functions
+plt.xlabel('Day of the week')
+plt.ylabel('Amount')
+plt.title('Average Total Bill And Tip by day')
+plt.legend()
+```
+![image](https://github.com/user-attachments/assets/ca5e03a3-5144-4f65-8b3c-21ab8f5a5863)
+```
+avg_total_bill =df.groupby('time')['total_bill'].mean()
+avg_tip= df.groupby('time') ['tip'].mean()
 
-def plot_distplot(data, column, bins=10, color='blue'):
-    """Plots the distribution of a numerical column."""
-    plt.figure(figsize=(8,5))
-    sns.histplot(data[column], bins=bins, kde=True, color=color)
-    plt.title(f'Distribution of {column}')
-    plt.xlabel(column)
-    plt.ylabel('Frequency')
-    plt.show()
+p1= plt.bar(avg_total_bill.index, avg_total_bill, label='Total Bill', width=0.4)
+p2=plt.bar(avg_tip.index, avg_tip, bottom = avg_total_bill, label='Tip', width=0.4) 
+plt.xlabel('Time of Day')
+plt.ylabel('Amount')
 
-def plot_boxplot(data, column, hue=None):
-    """Plots a boxplot for a column, with option for hue."""
-    plt.figure(figsize=(8,5))
-    sns.boxplot(x=hue, y=column, data=data)
-    plt.title(f'Boxplot of {column}')
-    plt.show()
+plt.title('Average Total Bill and Tip by Time of Day')
 
-def plot_scatter(data, x_col, y_col, hue=None):
-    """Draws a scatter plot between two numeric columns with optional hue."""
-    plt.figure(figsize=(8,5))
-    sns.scatterplot(x=x_col, y=y_col, hue=hue, data=data)
-    plt.title(f'Scatter Plot of {x_col} vs {y_col}')
-    plt.show()
+plt.legend()
+```
+![image](https://github.com/user-attachments/assets/e99b20b6-3567-4e56-970a-89b693b5fe3f)
+```
+import seaborn as sns
+dt=sns.load_dataset('tips')
+sns.barplot(x='day',y='total_bill',hue='sex',data=dt,palette='Set1')
+plt.xlabel('Day of the week')
+plt.ylabel('Total Bill')
+plt.title('Total Bill by day and gender')
+```
+![image](https://github.com/user-attachments/assets/2127fa7b-98b9-4709-bed6-8c563f828139)
+```
+import seaborn as sns
 
-def plot_count(data, column):
-    """Draws a count plot for a categorical column."""
-    plt.figure(figsize=(8,5))
-    sns.countplot(x=column, data=data)
-    plt.title(f'Count Plot of {column}')
-    plt.show()
+df= sns.load_dataset('tips')
 
-def plot_correlation_heatmap(data, annot=True, cmap='coolwarm'):
-    """Plots a heatmap of correlation matrix."""
-    plt.figure(figsize=(10,7))
-    # Select only numeric columns for correlation calculation
-    numeric_data = data.select_dtypes(include=['float64', 'int64'])
-    corr = numeric_data.corr()
-    sns.heatmap(corr, annot=annot, cmap=cmap)
-    plt.title('Correlation Heatmap')
-    plt.show()
+sns.scatterplot(x='total_bill', y='tip', hue='sex', data=df)
 
-# Example usage with 'bmi.csv' (change file and columns as necessary)
-if __name__ == "__main__":
-    df = read_data('bmi.csv')
-    plot_distplot(df, 'Height', bins=15, color='navy')
-    plot_distplot(df, 'Weight', bins=15, color='darkred')
-    plot_boxplot(df, 'Weight', hue='Gender')
-    plot_count(df, 'Gender')
-    plot_scatter(df, 'Height', 'Weight', hue='Gender')
-    plot_correlation_heatmap(df)
+plt.xlabel('Total Bill')
+plt.ylabel('Tip Amount')
+plt.title('Scatter Plot of Total Bill vs. Tip Amount')
+```
+![image](https://github.com/user-attachments/assets/b490a5a2-8995-4a2c-bb4f-08ee742101ab)
+
+```
+sns.histplot(data=df,x='day',hue='time',kde=True)
+```
+![image](https://github.com/user-attachments/assets/91dd853d-9190-45d9-9f08-34ec8c52d55e)
+```
+sns.boxplot(x=df['day'],y=df['total_bill'],hue=df['sex'])
+```
+![image](https://github.com/user-attachments/assets/b7d6fd66-1e23-41a6-86e8-29eb4ed9b348)
+
+```
+sns.boxplot(x="day", y="total_bill", hue="smoker", data=df, linewidth=2, width=0.6,boxprops={'facecolor': 'pink', "edgecolor": 'darkgreen'},
+          whiskerprops={"color": "black", "linestyle": "--", "linewidth": 1.5}, capprops={"color": "black", "linestyle": "--", "linewidth": 1.5})
+
 ```
 
+![image](https://github.com/user-attachments/assets/f45fe22f-81c5-4aa8-b6d4-4860f76346e2)
+
+
+
+
+
 # Result:
- <img width="1135" height="574" alt="Screenshot 2025-10-07 220205" src="https://github.com/user-attachments/assets/7aff1483-9f27-413a-a499-4e9cc755c80d" />
- <img width="1166" height="582" alt="Screenshot 2025-10-07 220214" src="https://github.com/user-attachments/assets/0cce69c3-0eec-47b4-8aa9-c00fdb23f385" />
- <img width="1224" height="580" alt="Screenshot 2025-10-07 220224" src="https://github.com/user-attachments/assets/9ff8e7e4-b295-43ee-a086-439f2a727aaf" />
- <img width="1160" height="590" alt="Screenshot 2025-10-07 220232" src="https://github.com/user-attachments/assets/adbc8fc7-863b-4b48-8d77-6e883c8fb49f" />
- <img width="1160" height="580" alt="Screenshot 2025-10-07 220240" src="https://github.com/user-attachments/assets/ae19820e-2a0c-4bb1-9029-8884ae5800da" />
- <img width="1110" height="756" alt="Screenshot 2025-10-07 220251" src="https://github.com/user-attachments/assets/d43d0cc8-ba58-4efd-b77a-19b0f730964c" />
-
-
-
-
-
-
+  The Perform Data Visualization using seaborn python library for the given datas is created
